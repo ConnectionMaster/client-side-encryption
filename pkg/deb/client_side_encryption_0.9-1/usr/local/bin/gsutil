@@ -108,19 +108,6 @@ class GSUtilWrapper(object):
         to_url = to_url + '/' + os.path.basename(from_url)
       t.decrypt(to_url)
 
-    # set custom metadata
-    if 'gs://' in to_url:
-      if to_url.endswith('/'):
-        # if the to url ends with a slash we need to grab the filename from
-        # the from_url and append it
-        object_url = to_url + from_url.split('/')[-1]
-      else:
-        object_url = to_url
-      run_command(_GSUTIL +
-                  ' setmeta -h "x-goog-meta-client-side-encrypted:true" ' +
-                  object_url,
-                  'set custom metadata')
-
     # clean up and exit with sig 0
     shutil.rmtree(_TMP_LOCATION)
     sys.exit(0)
